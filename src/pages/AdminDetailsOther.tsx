@@ -22,16 +22,18 @@ export default function AdminDetailsOther() {
   const [data, setData] = useState("");
 
   // Properties
-  const endPoint: string = "details-other/:id/";
+  const endPoint: string = "http://localhost:8080/content/details//";
 
   // Methods
   useEffect(() => {
-    fakeFetch(endPoint, code)
-      .then((response) => onSuccess(response.data))
-      .catch((error) => onFailure(error));
-  }, []);
+    fetch(endPoint)
+    .then ((response) => response.json())
+    .then((result) => onSuccess(result))
+    .catch((error) => onFailure(error));
+}, []);
 
   function onSuccess(data: string) {
+    console.log("data from server" +  data)
     setData(data);
     setStatus(eStatus.READY);
   }

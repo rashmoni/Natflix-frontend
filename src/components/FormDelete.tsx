@@ -25,11 +25,12 @@ export default function FormDelete({ endPoint, id }: iProps) {
     console.log("sending data to the server");
 
     fetch('http://localhost:8080/api/content/detele/'+id, { method: 'DELETE' })
-    .then((response) => onSuccess(response));
+    .then((response) => onSuccess(response))
+    .catch((error)=>onFailure(error));
   }
 
   function onSuccess(response: any) {
-    alert("Item deleted!");
+    alert("Item deleted!" + response);
     setModal(null);
   }
 

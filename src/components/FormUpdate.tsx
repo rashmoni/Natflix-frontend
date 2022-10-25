@@ -5,7 +5,6 @@ import { FormEvent, useState } from "react";
 import ListInput from "components/ListInput";
 import { generateFields } from "scripts/formUtilities";
 import { useModal } from "state/ModalContext";
-import fakeFetch from "scripts/fakeFetch";
 
 interface iProps {
   endPoint: string;
@@ -20,18 +19,30 @@ export default function FormUpdate({ endPoint, fields, data }: iProps) {
   // Local state
   const [form, setForm] = useState(generateFields(fields, data));
 
+  //Properties
+  const METHOD = "PUT"
+  const HEADERS = { "Content-type": "application/json; charset=UTF-8"};
+
   // Methods
   async function onSubmit(event: FormEvent<HTMLFormElement>) {
-    const editedItem = { ...form, id: data.id };
+    const editedItem = { ...form,  id: data.id };
+  
+
+    console.log("sending data to the server", editedItem);
 
     event.preventDefault();
-    fakeFetch(endPoint + "update/", editedItem)
-      .then(onSuccess)
-      .catch((error) => onFailure(error));
+
+    fetch('http://localhost:8080/api/content/update/',{
+      method: METHOD,
+      headers: HEADERS,
+      body: JSON.stringify(editedItem),
+     })
+     .then((response) => onSuccess(response))
+     .catch((error)=>onFailure(error));
   }
 
-  function onSuccess() {
-    alert("Item edited!");
+  function onSuccess(response: any) {
+    alert("Item edited!"+ response);
     setModal(null);
   }
 

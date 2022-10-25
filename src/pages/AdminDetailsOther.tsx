@@ -22,7 +22,7 @@ export default function AdminDetailsOther() {
   const [data, setData] = useState("");
 
   // Properties
-  const endPoint: string = "http://localhost:8080/content/details//";
+  const endPoint: string = "http://localhost:8080/content/details/"+code;
 
   // Methods
   useEffect(() => {

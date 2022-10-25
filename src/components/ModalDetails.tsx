@@ -38,15 +38,16 @@ export default function ModalDetails({ item }: iProps) {
   const isASeries: boolean = type_id === eContentType.SERIES;
   const emptyOther: boolean = Object(dataOther).length === 0;
   const emptySeries: boolean = dataSerie.length === 0;
-  const endPoint = isASeries ? "details-series/:id/" : "details-other/:id/";
+  const endPoint = isASeries ? "details-series/:id/" : "http://localhost:8080/content/details/"+id;
   const videoCode = isASeries ? dataSerie[0]?.video_code : dataOther.video_code;
 
   // Methods
   useEffect(() => {
-    fakeFetch(endPoint, id)
-      .then((response) => onSuccess(response.data))
-      .catch((error) => onFailure(error));
-  }, []);
+    fetch(endPoint)
+    .then ((response) => response.json())
+    .then((result) => onSuccess(result))
+    .catch((error) => onFailure(error));
+}, []);
 
   function onSuccess(data: any) {
     isASeries ? setDataSerie(data) : setDataOther(data);

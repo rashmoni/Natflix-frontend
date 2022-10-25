@@ -32,6 +32,7 @@ export default function FormUpdate({ endPoint, fields, data }: iProps) {
 
     event.preventDefault();
 
+    
     fetch('http://localhost:8080/api/content/update/',{
       method: METHOD,
       headers: HEADERS,
@@ -42,7 +43,7 @@ export default function FormUpdate({ endPoint, fields, data }: iProps) {
   }
 
   function onSuccess(response: any) {
-    alert("Item edited!"+ response);
+    alert(response);
     setModal(null);
   }
 

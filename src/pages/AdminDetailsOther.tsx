@@ -1,5 +1,3 @@
-// Fake data (replace this with a real fetch)
-import fakeFetch from "scripts/fakeFetch";
 
 // Node modules
 import { FormEvent, useEffect, useState } from "react";
@@ -21,19 +19,23 @@ export default function AdminDetailsOther() {
   const [status, setStatus] = useState(eStatus.LOADING);
   const [data, setData] = useState("");
 
+
+
   // Properties
-  const endPoint: string = "http://localhost:8080/content/details/"+code;
+  const endPoint1: string = "http://localhost:8080/content/details/"+code;
+  const endPoint2: string = "http://localhost:8080/content/details/";
+  const METHOD = "PUT"
+  const HEADERS = { "Content-type": "application/json; charset=UTF-8"};
 
   // Methods
   useEffect(() => {
-    fetch(endPoint)
+    fetch(endPoint1)
     .then ((response) => response.json())
     .then((result) => onSuccess(result))
     .catch((error) => onFailure(error));
 }, []);
 
-  function onSuccess(data: string) {
-    console.log("data from server" +  data)
+  function onSuccess(data: any) {
     setData(data);
     setStatus(eStatus.READY);
   }
@@ -44,11 +46,18 @@ export default function AdminDetailsOther() {
   }
 
   function onSubmit(event: FormEvent) {
+
     event.preventDefault();
-    fakeFetch(endPoint + "update/", data)
-      .then((response) => alert(response.data))
-      .catch(onFailure);
+
+    fetch(endPoint2+"update/",{
+      method: METHOD,
+      headers: HEADERS, 
+      body: JSON.stringify(data),
+     })
+     .then((response) => onSuccess(response))
+     .catch((error)=>onFailure(error));
   }
+    
 
   // Safeguards
   if (status === eStatus.LOADING) return <StatusLoading />;

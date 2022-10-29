@@ -19,6 +19,7 @@ export default function NavigationBar() {
         <img src={Logo} />
       </Link>
       {Links}
+      <Link to='/Admin'>Admin</Link>
     </nav>
   );
 }
